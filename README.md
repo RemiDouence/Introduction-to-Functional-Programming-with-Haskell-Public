@@ -34,3 +34,24 @@ Total time = 30h.
 
 **If you find this repository useful, please let me know at remi dot douence @ imt minus atlantique dot fr**
 
+The code is presented in three different versions:
+
+1. In Makdown: (`.hs.md`) Haskell with markdown as comments 
+  (each non Haskell line is prefixed by `--MD `) 
+  A line prefixed with `--EXO ` is a definition to be completed. 
+  Converters can extract either the exercice or its solution. 
+  This format `.hs.md` loads fine in `ghci`. 
+  It can be used to develop literate markdown files.
+
+2. in Haskell Exo: (`.hs`) plain haskell without markdown (the
+   markdown as comments lines are erased)
+   The line starting with `--EXO ` are kept (and the rest of the
+   definition is discarded).
+
+3. in Haskell Sol: (`.hs`) plain haskell without markdown (the
+   markdown as comments lines are erased)
+   The line starting with `--EXO ` are discarded.
+
+4. In Literate Haskell Exo: (`.hs.md`) Haskell with markdown as comments 
+  (each non Haskell line is prefixed by `--MD `) 
+

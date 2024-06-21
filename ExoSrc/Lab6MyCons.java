@@ -1,18 +1,23 @@
+
 // This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivs License
 // https://creativecommons.org/licenses/by-nc-nd/4.0/
 // Remi Douence
 
 // Please do not distribute solutions but let people learn by doing the exercices.
 
-public class MyCons<A> extends MyList<A> {
+
+public class Lab6MyCons<A> extends Lab6MyList<A> {
 	A head;
-	MyList<A> tail;
-	public MyCons(A head, MyList<A> tail) {
+	Lab6MyList<A> tail;
+	public Lab6MyCons(A head, Lab6MyList<A> tail) {
 		this.head = head;
 		this.tail = tail;
 	}
 	public String toString() {
-		return "(MyCons " + head + " " + tail + ")";
+		return "(Lab6MyCons " + head + " " + tail + ")";
+	}
+	Lab6MyList<A> myAppend(Lab6MyList<A> ys) {
+		return new Lab6MyCons<A>(head,tail.myAppend(ys));
 	}
 	boolean myNull() {
 		return false;
@@ -20,13 +25,13 @@ public class MyCons<A> extends MyList<A> {
 	A myHead() {
 		return head;
 	}
-	MyList<A> myTail() {
+	Lab6MyList<A> myTail() {
 		return tail;
 	}
-	MyList<A> myAppend(MyList<A> ys) {
-		return new MyCons<A>(head,tail.myAppend(ys));
+	Lab6MyList myConcat() {
+		return ((Lab6MyList)myHead()).myAppend(myTail().myConcat());
 	}
-	boolean equals(MyList<A> ys) {
+	boolean equals(Lab6MyList<A> ys) {
 		return !ys.myNull() && myHead().equals(ys.myHead()) && myTail().equals(ys.myTail());
 	}
 }

@@ -1,13 +1,21 @@
+
 // This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivs License
 // https://creativecommons.org/licenses/by-nc-nd/4.0/
 // Remi Douence
 
 // Please do not distribute solutions but let people learn by doing the exercices.
 
+// this program examplifies how recursion can be usefull in Java too
+// you are going to start from quicksort function and makes it more and more imperative
+// the efficiency (gain) is evaluated for each version
+
+// you may have to increase the stack depth of your JVM:
+// https://stackoverflow.com/questions/3700459/how-to-increase-the-java-stack-size
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickSort {
+public class Lib6QuickSort {
 	// time in milliseconds
 	private static long start;
 	public static void start() {
@@ -43,10 +51,10 @@ public class QuickSort {
 			input.add(i);
 		}
 		List<Integer> output;
-		// 1) buggy fun, fix it
+		// 1) the function sort1 has a bug, fix it 
 		System.out.println("VERSION 1");
 		start();
-		output = QuickSort.sort1(input);
+		output = Lib6QuickSort.sort1(input);
 		System.out.println("time=" + stop()); 
 		print("input =",input);
 		print("output=",output);
@@ -54,7 +62,7 @@ public class QuickSort {
 		// 2) fun (remove a local copy)
 		System.out.println("VERSION 2");
 		start();
-		output = QuickSort.sort2(input);
+		output = Lib6QuickSort.sort2(input);
 		System.out.println("time=" + stop()); 
 		//print("input =",input);
 		print("output=",output);
@@ -63,7 +71,7 @@ public class QuickSort {
 		System.out.println("VERSION 3");
 		List<Integer> inputBis = new ArrayList<Integer>(input);
 		start();
-		output = QuickSort.sort3(inputBis); // beware mutate the input
+		output = Lib6QuickSort.sort3(inputBis); // beware mutate the input
 		System.out.println("time=" + stop()); 
 		//print("input =",inputBis);
 		print("output=",output);
@@ -77,7 +85,7 @@ public class QuickSort {
 		}
 		//print("input =",inputA);
 		start();
-		QuickSort.sort4(inputA,0,inputA.length-1);
+		Lib6QuickSort.sort4(inputA,0,inputA.length-1);
 		System.out.println("time=" + stop()); 
 		print("output=",inputA);
 		
@@ -89,7 +97,7 @@ public class QuickSort {
 		}
 		//print("input =",inputA);
 		start();
-		QuickSort.sort5(inputA);
+		Lib6QuickSort.sort5(inputA);
 		System.out.println("time=" + stop()); 
 		print("output=",inputA);
 	}
@@ -111,10 +119,11 @@ public class QuickSort {
 			}
 			lower.remove(0);
 			// subsort
-			lower = QuickSort.sort1(lower);
-			upper = QuickSort.sort1(upper);
+			lower = Lib6QuickSort.sort1(lower);
+			upper = Lib6QuickSort.sort1(upper);
 			List<Integer> result = new ArrayList<Integer>();
 			result.addAll(lower);
+			result.add(pivot); // bug here
 			result.addAll(upper);
 			return result;
 		}
@@ -137,8 +146,11 @@ public class QuickSort {
 			}
 			lower.remove(0);
 			// subsort
-			// ...
-			return null; // dummy return to be deleted
+			lower = Lib6QuickSort.sort2(lower);
+			upper = Lib6QuickSort.sort2(upper);
+			lower.add(pivot);
+			lower.addAll(upper);
+			return lower;
 		}
 	}
 	// functional version 3: do not create the list "lower"
@@ -147,9 +159,20 @@ public class QuickSort {
 			return xs;
 		} else {
 			// split
-			// ...
+			int pivot = xs.get(0);
+			List<Integer> upper = new ArrayList<Integer>();
+			for (Integer i:xs) {
+				if (i>pivot) {
+					xs.remove(i);
+					upper.add(i);
+				}
+			}
+			xs.remove(0);
 			// subsort
-			// ...
+			xs = Lib6QuickSort.sort3(xs);
+			upper = Lib6QuickSort.sort3(upper);
+			xs.add(pivot);
+			xs.addAll(upper);
 			return xs;
 		}
 	}
@@ -169,9 +192,15 @@ public class QuickSort {
 		for (int i = begin+1; i<=end; i++) {
 			if (xs[i]<=xs[pivot]) {
 				if (i==pivot+1) {
-					// ...
+					int tmp = xs[pivot];
+					xs[pivot] = xs[i];
+					xs[i] = tmp;
+					pivot++;
 				} else {
-					// ...
+					int tmp = xs[pivot];
+					xs[i] = xs[pivot+1];
+					pivot++;
+					xs[pivot] = tmp;
 				}
 			}
 		}
@@ -183,9 +212,27 @@ public class QuickSort {
 		int[] stackOfEnd   = new int[xs.length]; // max depth rec
 		int stack = 0;
 		// aka init push
-		// ...
+		stackOfBegin[stack] = 0;
+		stackOfEnd  [stack] = xs.length-1;
+		stack++;
 		while (stack>0) {
-			// ...
+			// aka pop
+			int begin = stackOfBegin[stack-1];
+			int end   = stackOfEnd  [stack-1];
+			stack--;
+			if (begin<end) {				
+				// split
+				int pivot = split(xs,begin,end);
+				// subsort 
+				// aka push sort3(xs,begin,pivot)
+				stackOfBegin[stack] = begin;
+				stackOfEnd  [stack] = pivot;
+				stack++;
+				// aka push sort3 (xs,pivot+1,end)
+				stackOfBegin[stack] = pivot+1;
+				stackOfEnd  [stack] = end;
+				stack++;
+			}
 		}	
 	}
 }

@@ -1,30 +1,38 @@
+
 // This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivs License
 // https://creativecommons.org/licenses/by-nc-nd/4.0/
 // Remi Douence
 
 // Please do not distribute solutions but let people learn by doing the exercices.
 
-public class MyNil<A> extends MyList<A> {
+
+public class Lab6MyNil<A> extends Lab6MyList<A> {
 	public String toString() {
-		return "MyNil";
+		return "Lab6MyNil";
+	}
+	Lab6MyList<A> myAppend(Lab6MyList<A> ys) {
+		return ys;
 	}
 	boolean myNull() {
 		return true;
 	}
+
 	A myHead() {
-		System.out.println("MyNil.head");
+		System.out.println("Lab6MyNil.head");
 		System.exit(0);
 		return null;
 	}
-	MyList<A> myTail() {
-		System.out.println("MyNil.tail");
+
+	Lab6MyList<A> myTail() {
+		System.out.println("Lab6MyNil.tail");
 		System.exit(0);
 		return null;
 	}
-	MyList<A> myAppend(MyList<A> ys) {
-		return ys;
+	Lab6MyList myConcat() {
+		return this;
 	}
-	boolean equals(MyList<A> ys) {
+
+	boolean equals(Lab6MyList<A> ys) {
 		return ys.myNull();
 	}
 }
