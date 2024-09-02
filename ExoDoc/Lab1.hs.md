@@ -24,7 +24,7 @@
     - because there is a memory of past computation (mutable variable)
 - moreover functions have been studied for a loooooong time by mathematicians and functions have very nice propreties (e.g., composition, associativity, commutativity, idempotence, black-box, etc.)
 ### Functions in Software Engineering 
-- a value that can be computed versus a va lue that must be stored
+- a value that can be computed versus a value that must be stored
 - for instance a Set of elements: the cardinal (number of elements can be (re)computed)
 - non functional / imperative programming: the cardinal must be maintained (bugs)
 ## Incremental computing 
@@ -35,8 +35,8 @@
 - matchs 0 = 0
 - matchs 1 = 0
 - matchs 2 = 1
-- matchs 3 = 3
-- matchs 4 = 6
+- matchs 3 = 3 (triangle)
+- matchs 4 = 6 (square)
 - what cases are necessary?
 ## Haskell
 - we will use Haskell https://www.haskell.org
