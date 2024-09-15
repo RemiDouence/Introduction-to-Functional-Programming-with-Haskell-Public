@@ -26,6 +26,10 @@
 ### Functions in Software Engineering 
 - a value that can be computed versus a value that must be stored
 - for instance a Set of elements: the cardinal (number of elements can be (re)computed)
+```
+-- (re)computed value
+
+```
 - non functional / imperative programming: the cardinal must be maintained (bugs)
 ## Incremental computing 
 - championship: each teams meet all other teams
@@ -38,6 +42,10 @@
 - matchs 3 = 3 (triangle)
 - matchs 4 = 6 (square)
 - what cases are necessary?
+```
+-- incremental computing for championship
+
+```
 ## Haskell
 - we will use Haskell https://www.haskell.org
 ### Haskell Editor
@@ -53,6 +61,11 @@
     - `1 + 2` then `ENTER`
 - edit the file ; save it ; reload it `:r` ; rince ; repeat
     - do not forge to save the file **before** reloading
+### Warning
+- disable some warnings
+```
+{-# OPTIONS_GHC -Wno-x-partial #-} 
+```
 ### Module (Import)
 - Haskell provides many predefined functions in the default prelude https://hackage.haskell.org/package/base-4.17.0.0/docs/Prelude.html
 - libraries offer numerous functions

@@ -5,6 +5,14 @@
 
 -- Please do not distribute solutions but let people learn by doing the exercices.
 
+-- (re)computed value
+
+
+-- incremental computing for championship
+
+
+{-# OPTIONS_GHC -Wno-x-partial #-} 
+
 import Data.List
 
 -- single line comment 
