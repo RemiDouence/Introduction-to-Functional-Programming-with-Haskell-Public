@@ -123,39 +123,22 @@ public class Lib6QuickSort {
 			upper = Lib6QuickSort.sort1(upper);
 			List<Integer> result = new ArrayList<Integer>();
 			result.addAll(lower);
-			result.add(pivot); // bug here
+// ...
+
 			result.addAll(upper);
 			return result;
 		}
 	}
 	// functional version 2: do not create the list "result" 
 	public static List<Integer> sort2(List<Integer> xs) {
-		if (xs.size()<=1) {
-			return xs;
-		} else {
-			// split
-			int pivot = xs.get(0);
-			List<Integer> lower = new ArrayList<Integer>();
-			List<Integer> upper = new ArrayList<Integer>();
-			for (Integer i:xs) {
-				if (i<=pivot) {
-					lower.add(i);
-				} else {
-					upper.add(i);
-				}
-			}
-			lower.remove(0);
-			// subsort
-			lower = Lib6QuickSort.sort2(lower);
-			upper = Lib6QuickSort.sort2(upper);
-			lower.add(pivot);
-			lower.addAll(upper);
-			return lower;
-		}
+return null;
+
 	}
 	// functional version 3: do not create the list "lower"
 	public static List<Integer> sort3(List<Integer> xs) {
-		if (xs.size()<=1) {
+return null;
+
+	    if (xs.size()<=1) {
 			return xs;
 		} else {
 			// split
@@ -175,6 +158,7 @@ public class Lib6QuickSort {
 			xs.addAll(upper);
 			return xs;
 		}
+
 	}
 	// imperative version 1: do not create lists but sort the array in situ
 	public static void sort4(int[] xs, int begin, int end) {
@@ -192,15 +176,11 @@ public class Lib6QuickSort {
 		for (int i = begin+1; i<=end; i++) {
 			if (xs[i]<=xs[pivot]) {
 				if (i==pivot+1) {
-					int tmp = xs[pivot];
-					xs[pivot] = xs[i];
-					xs[i] = tmp;
-					pivot++;
+// ...
+
 				} else {
-					int tmp = xs[pivot];
-					xs[i] = xs[pivot+1];
-					pivot++;
-					xs[pivot] = tmp;
+// ...
+
 				}
 			}
 		}
@@ -217,21 +197,14 @@ public class Lib6QuickSort {
 		stack++;
 		while (stack>0) {
 			// aka pop
-			int begin = stackOfBegin[stack-1];
-			int end   = stackOfEnd  [stack-1];
-			stack--;
+int begin = 0; int end = 0;
+
 			if (begin<end) {				
 				// split
 				int pivot = split(xs,begin,end);
 				// subsort 
-				// aka push sort3(xs,begin,pivot)
-				stackOfBegin[stack] = begin;
-				stackOfEnd  [stack] = pivot;
-				stack++;
-				// aka push sort3 (xs,pivot+1,end)
-				stackOfBegin[stack] = pivot+1;
-				stackOfEnd  [stack] = end;
-				stack++;
+// ...
+
 			}
 		}	
 	}
