@@ -56,7 +56,7 @@ l2 = 1:l1
 
 l3 :: [Bool]
 
-l3 = True:l1
+l3 = undefined -- True:l1
 
 myLength :: [Int] -> Int
 
@@ -262,7 +262,7 @@ myFilter = undefined
 
 -- you can use pattern matching such as `where (ls, rs) = exp`
 mySplitAt :: Int -> [a] -> ([a],[a])
-mySplitAt = indefined 
+mySplitAt = undefined 
 
 myZip :: [a] -> [b] -> [(a,b)]
 myZip = undefined 

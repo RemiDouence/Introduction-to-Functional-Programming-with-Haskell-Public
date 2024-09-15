@@ -182,7 +182,7 @@ mkZipT :: Tree a -> TreeZ a
 mkZipT t = (t,Here)
 
 goLeft :: TreeZ a -> TreeZ a -- O(1)
-goLeft = = undefined 
+goLeft = undefined 
 
 goRight :: TreeZ a -> TreeZ a -- O(1)
 goRight = undefined 
