@@ -200,7 +200,7 @@ myCurry :: ((a,b) -> c) -> a -> b -> c
 myCurry = undefined
 
 myUncurry :: (a -> b -> c) -> (a,b) -> c
-myUncurry f (x,y) = f x y
+myUncurry = undefined
 
 myUnzip :: [(a,b)] -> ([a],[b])
 myUnzip = undefined 
