@@ -32,16 +32,16 @@ test2_eval = eval e2 == 9
 
 showExp :: Exp -> String 
 showExp (Cte i) = show i 
-showExp (Add e1 e2) = bracket e1 ++ " + " ++ bracket e2
-showExp (Mul e1 e2) = showExp e1 ++ " * " ++ showExp e2 
+showExp (Add e1 e2) = showExp e1 ++ " + " ++ showExp e2
+showExp (Mul e1 e2) = bracket e1 ++ " * " ++ bracket e2 
 
 bracket :: Exp -> String
-bracket (Mul e1 e2) = "(" ++ showExp (Mul e1 e2) ++ ")"
+bracket (Add e1 e2) = "(" ++ showExp (Add e1 e2) ++ ")"
 bracket e = showExp e 
 
-test1_showExp = showExp e1 == "1 + (2 * 3)"
+test1_showExp = showExp e1 == "1 + 2 * 3"
 
-test2_showExp = showExp e2 == "1 + 2 * 3"
+test2_showExp = showExp e2 == "(1 + 2) * 3"
 
 -- parser = state + list
 
@@ -49,19 +49,29 @@ data Parser a = Parser (String -> [(a,String)])
 
 instance Functor Parser where 
   --fmap :: (a -> b) -> Parser a -> Parser b
+  
   fmap f (Parser g) = Parser (\s0 -> [ (f a,s1) | (a,s1) <- g s0 ])
 
 instance Applicative Parser where 
   --pure :: a -> Parser a 
+  
   pure a = Parser (\s0 -> [(a,s0)])
+  
   --(<*>) :: Parser (a -> b) -> Parser a -> Parser b 
-  (Parser ff) <*> (Parser fa) = Parser (\s0 -> [ (f a,s2) | (f,s1) <- ff s0, (a,s2) <- fa s1 ])
+  
+  (Parser ff) <*> (Parser fa) = Parser (\s0 -> [ (f a,s2) | (f,s1) <- ff s0
+                                                          , (a,s2) <- fa s1 ])
 
 instance Monad Parser where
   --return :: a -> Parser a 
+  
   return = pure
+  
   --(>>=) :: Parser a -> (a -> Parser b) -> Parser b 
-  (Parser fa) >>= f = Parser (\s0 -> [ (b,s2) | (a,s1) <- fa s0, let Parser fb = f a, (b,s2) <- fb s1 ] )
+  
+  (Parser fa) >>= f = Parser (\s0 -> [ (b,s2) | (a,s1) <- fa s0
+                                              , let Parser fb = f a
+                                              , (b,s2) <- fb s1 ] )
 
 runP :: Parser a -> String -> [(a,String)]
 runP (Parser f) s = f s
@@ -81,6 +91,7 @@ charCharP = do
   c1 <- charP
   c2 <- charP
   return (c1,c2)
+  
 --charCharP = do { c1 <- charP; c2 <- charP; return (c1,c2) }
   
 test1_charCharP = runP charCharP "abc" 
@@ -89,8 +100,11 @@ test2_charCharP = runP charCharP "a"
 
 instance Alternative Parser where 
   -- empty :: Parser a 
+  
   empty = Parser (\s0 -> [])
+  
   -- (<|>) :: Parser a -> Parser a -> Parser a 
+  
   (Parser f1) <|> (Parser f2) = Parser (\s0 -> f1 s0 ++ f2 s0)
 
 satP :: (a -> Bool) -> Parser a -> Parser a 
@@ -115,7 +129,7 @@ someP p =
      
 manyP :: Parser a -> Parser [a] -- none or more 
 manyP p = 
-  someP p 
+  someP p -- longuest first
   <|> 
   return []
 
@@ -156,24 +170,26 @@ test2_stringP = runP (stringP "abc") "abdc" == []
 -- TODO the longest non empty sequence of pa separated by pb
 
 sepbyP :: Parser a -> Parser b -> Parser [a]
-pa `sepbyP` pb = firstP 
-  (do a <- pa
-      as <- manyP (do { pb ; pa })
-      return (a:as)
-   <|>
-   undefined)
+pa `sepbyP` pb = undefined
 
 test1_sepby = runP (intP `sepbyP` stringP ",") "1,2,3,4+" == [([1,2,3,4],"+")]
 
 test2_sepby = runP (intP `sepbyP` stringP ",") "11,22,33,+" == [([11,22,33],",+")]
 
---fold left non empty list
+--TODO fold non empty list
+
+foldr1 :: (a -> a -> a) -> [a] -> a 
+foldr1 f [a] = a 
+foldr1 f (a:as) = f a (foldr1 f as) 
+
+test1_foldr1 = foldr1 Add (map Cte [1..4]) 
+  == Add (Cte 1) (Add (Cte 2) (Add (Cte 3) (Cte 4)))
 
 foldl1 :: (a -> a -> a) -> [a] -> a 
-foldl1 f [a] = a 
-foldl1 f as = f (foldl1 f (init as)) (last as)
+foldl1 = undefined 
 
-test1_foldl1 = foldl1 Add (map Cte [1..4]) == Add (Add (Add (Cte 1) (Cte 2)) (Cte 3)) (Cte 4)
+test1_foldl1 = foldl1 Add (map Cte [1..4]) 
+  == Add (Add (Add (Cte 1) (Cte 2)) (Cte 3)) (Cte 4)
 
 -- TODO sum of integers  
 
